@@ -236,7 +236,7 @@ void* preeny_connect_write(void* para)
 	PREENY_SOCKET did improves the performance a lot. */
 	newfd = sockfd;
 
-	preeny_info("preeny connect_write for serverfd=%d, client sock index=%d\n",
+	preeny_info("preeny connect succeeds, write for serverfd=%d, client sock index=%d\n",
 		parameter->servfd, parameter->self_index);
 
 	if (all_sock_contents[parameter->self_index].num == 0)
@@ -270,6 +270,7 @@ void* preeny_connect_write(void* para)
 	
 end:
 	original_shutdown(newfd, SHUT_WR);
+	preeny_info("preeny connection for serverfd=%d client sockfd=%d shutdown\n", parameter->servfd, newfd);
 	free(para);
 	return NULL;
 
@@ -457,7 +458,7 @@ int socket(int domain, int type, int protocol)
 		exit(1);
 	}
 
-	preeny_debug("Intercepted socket()! fd=%d\n", fd);
+	preeny_debug("Intercepted socket()! original type=%s fd=%d\n", domain == AF_INET ? "AF_INET" : "AF_INET6", fd);
 
 	preeny_socket_hooked[fd] = 1;
 	preeny_socket_hooked_is_server[fd] = 0;
@@ -579,7 +580,7 @@ int listen(int sockfd, int backlog)
 					r = 0; preeny_connect_write((void*)para);
 				}
 				
-				preeny_info("pthread_create for preeny_connect_write, accept_done_num %d, selected_fd_index %d \n", 
+				preeny_info("pthread_created or directly called for preeny_connect_write, accept_done_num %d, selected_fd_index %d \n", 
 					accept_done_num, selected_fd_index);
 				if (r)
 				{
