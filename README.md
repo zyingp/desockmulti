@@ -1,5 +1,5 @@
 # desockmulti
-A de-sockecting tool that is 10x faster than [desock (Preeny)](https://github.com/zardus/preeny) in fuzzing network protocols
+A de-socketing tool that is 10x faster than [desock (Preeny)](https://github.com/zardus/preeny) in fuzzing network protocols
 
 # Build
 `make`
